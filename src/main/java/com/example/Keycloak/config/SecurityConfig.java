@@ -20,14 +20,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-resources/**", "/webjars/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/users/current").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users/{id}/isExists").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users/all").hasRole("ADMI")
-                        .requestMatchers(HttpMethod.POST, "/tasks/create").hasRole("USER")
-                        .requestMatchers(HttpMethod.GET, "/tasks/{taskId}/{userId}").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.GET, "/tasks/update/**").hasRole("USER")
-                        .requestMatchers(HttpMethod.PUT, "/tasks/delete/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/users/me").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/complaints/create").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/complaints/for/user").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/complaints/all").hasAnyRole("ADMIN", "OFFICIAL")
+                        .requestMatchers(HttpMethod.PUT, "/complaints/{id}/assign").hasRole("OFFICIAL")
+                        .requestMatchers(HttpMethod.PUT, "/complaints/{complaintId}/status").hasRole("OFFICIAL")
+                        .requestMatchers(HttpMethod.GET, "/complaints/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/complaints/{id}").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/responses/create").hasRole("OFFICIAL")
+                        .requestMatchers(HttpMethod.GET, "/responses/{id}/responses").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter())))
                 .oauth2Login(Customizer.withDefaults());
@@ -43,4 +46,5 @@ public class SecurityConfig {
 
         return converter;
     }
+
 }
