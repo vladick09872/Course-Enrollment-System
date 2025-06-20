@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_table")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,21 +24,13 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
-    private String password;
-
     @Column(name = "role", length = 20)
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "citizen")
-    private List<Complaint> citizen;
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
-    @OneToMany(mappedBy = "assignedTo")
-    private List<Complaint> assignedTo;
-
-    @OneToMany(mappedBy = "responder")
-    private List<Response> responder;
-
+    @OneToMany(mappedBy = "courier")
+    private List<Delivery> deliveries;
 }
-

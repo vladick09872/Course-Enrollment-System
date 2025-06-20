@@ -1,12 +1,11 @@
 package com.example.Keycloak.service;
 
 import com.example.Keycloak.DTO.UserDTO;
-import com.example.Keycloak.DTO.UserShortDTO;
 
 import java.util.List;
 
 public interface UserService {
-    UserShortDTO getCurrentUser();
+    UserDTO getCurrentUser();
 
-    List<UserShortDTO> findAllUsers();
+    List<UserDTO> getAllCouriers();
 }

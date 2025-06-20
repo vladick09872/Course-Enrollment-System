@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.mapstruct.Mapper;
 
 import java.time.LocalDate;
 
@@ -12,24 +11,25 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "response_table")
-public class Response {
+@Table(name = "delivers")
+public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "deliveryDate")
+    private LocalDate deliveryDate;
 
-    @Column(name = "createdAt")
-    private LocalDate createdAt;
-
-    @ManyToOne
-    @JoinColumn(name = "responder_id")
-    private User responder;
+    @Column(name = "status", length = 20)
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "complaint_id")
-    private Complaint complaint;
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "courier_id")
+    private User courier;
 }

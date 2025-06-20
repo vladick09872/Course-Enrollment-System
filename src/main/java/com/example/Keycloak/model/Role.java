@@ -1,7 +1,7 @@
 package com.example.Keycloak.model;
 
 public enum Role {
-    USER,
-    OFFICIAL,
-    ADMIN
+    MANAGER,
+    CLIENT,
+    COURIER
 }
